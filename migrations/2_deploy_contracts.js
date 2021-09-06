@@ -1,5 +1,5 @@
 const PLToken = artifacts.require("PLToken");
 
 module.exports = function (deployer) {
-  deployer.deploy(PLToken);
+  deployer.deploy(PLToken, 100000);
 };
