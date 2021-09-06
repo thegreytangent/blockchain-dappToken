@@ -51,6 +51,24 @@ contract('PLToken', (account) =>{
         });
     });
 
+    it('approves tokens for delegate transfer', () => {
+        return PLToken.deployed().then((i) => {
+            token_instance = i;
+            return token_instance.approve.call(account[1], 100);
+        }).then(success => {
+            return token_instance.approve(account[1], 100)
+        }).then(receipt => {
+            assert.equal(receipt.logs.length, 1, "triggers one event");
+            assert.equal(receipt.logs[0].event, "Approval");
+            assert.equal(receipt.logs[0].args._owner, account[0]);
+            assert.equal(receipt.logs[0].args._spender, account[1]);
+            return token_instance.allowance(account[0], account[1]);
+        }).then(allowance => {
+            assert.equal(allowance.toNumber(), 100);
+        })
+    })
+
+
 
 
 });
